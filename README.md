@@ -24,9 +24,9 @@
 - **Designing:** Figma
 - **Authentication 🔒 :** JWT Auth
 
----
+<!-- --- -->
 
-## **Images 📷**
+<!-- ## **Images 📷**
 - **Desktop**
     - **Login**
     ![](Designs/desktop/Login.png)
@@ -49,7 +49,7 @@
     ![](Designs/phone/Register.png)
     - **Landing Page**
     ![](Designs/phone/Landing%20Page.png)
-    - **Home Page**
+    - **Home Page** -->
 
 ---
 
