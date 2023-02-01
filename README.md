@@ -37,3 +37,9 @@
 
 ## **GitHub 😸**
 - **https://github.com/Jay-Karia/Hello**
+
+---
+
+## **Note 📝**
+- Development is postponded
+- Only Desgin files are uploaded
