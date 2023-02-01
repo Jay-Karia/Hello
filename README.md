@@ -42,4 +42,4 @@
 
 ## **Note 📝**
 - Development is postponed
-- Only Desgin files are uploaded
+- Only Design files are uploaded
