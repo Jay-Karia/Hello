@@ -41,5 +41,5 @@
 ---
 
 ## **Note 📝**
-- Development is postponded
+- Development is postponed
 - Only Desgin files are uploaded
