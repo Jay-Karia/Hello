@@ -1,4 +1,0 @@
-run = "server/node.js"
-
-[nix]
-channel = "stable-22_11"
