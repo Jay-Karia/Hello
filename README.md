@@ -1,6 +1,6 @@
 # **Hello 💬**
 
-## Web based chat application built with MERN Stack.
+## Web based chat application built with MERN Stack. 🌐
 ### A Full Stack Web Application made by Jay.
 ### Easily and freely communicate with others.
 
