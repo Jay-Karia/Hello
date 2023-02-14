@@ -26,6 +26,13 @@
 
 ---
 
+## **Support 🏆**
+- Leave a **star** in this repo ⭐
+- **Share** it to other developers 👩🏿‍💻
+- **Watch** this repo for updates 👁‍🗨
+
+---
+
 ## **Contribute 💖**
 - Clone the repository: **https://github.com/Jay-Karia/Hello.git**
 - Install required packages by ```npm install``` in **client** and **server** directories
