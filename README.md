@@ -6,6 +6,13 @@
 
 ---
 
+## **Support 🏆**
+- Leave a **star** in this repo ⭐
+- **Share** it to other developers 👩🏿‍💻
+- **Watch** this repo for updates 👁‍🗨
+
+---
+
 ## **Features 💡**
 - **Login/Logout** and **Register**
 - **Send** and **Receive** messages to **one-to-one chat** and **group chat**
@@ -23,13 +30,6 @@
 - **UI 👁‍🗨 :** Material UI
 - **Designing 🎨 :** Figma
 - **Authentication 🔒 :** JWT Auth
-
----
-
-## **Support 🏆**
-- Leave a **star** in this repo ⭐
-- **Share** it to other developers 👩🏿‍💻
-- **Watch** this repo for updates 👁‍🗨
 
 ---
 
