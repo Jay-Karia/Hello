@@ -72,6 +72,7 @@ router.get("/", verifyJWT, async(req, res) => {
     }
 })
 
+// create group
 router.post("/group", verifyJWT, async(req, res) => {
     var { users, groupName } = req.body;
 
@@ -101,6 +102,22 @@ router.post("/group", verifyJWT, async(req, res) => {
 
     } catch (error) {
         return res.status(400).json({ err: error })
+    }
+})
+
+// rename group name
+router.post("/group/rename/", verifyJWT, async(req, res) => {
+    const { chatId, chatName } = req.body;
+
+    try {
+        const groupChat = await Chat.findByIdAndUpdate(chatId, { chatName: chatName })
+
+        const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("users", "-password")
+            .populate("groupAdmin", "-password")
+
+        return res.status(200).json({ groupChat: fullGroupChat })
+    } catch (error) {
+        return res.status(400).json({ error: error })
     }
 })
 
