@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 
 const generateToken = require("../config/generateToken")
+const Chat = require("../Models/chatModel")
 const User = require("../Models/userModel");
 const verifyJWT = require("../middlewares/verifyJWT")
 
@@ -67,9 +68,6 @@ router.post('/', verifyJWT, async(req, res) => {
         ]
 
     } : {};
-    // const users = await User.find(search)
-    // res.send(users)
-
     const users = await User.find(search).find({ _id: { $ne: req.user.id } })
     return res.send(users)
 })

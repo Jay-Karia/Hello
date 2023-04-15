@@ -3,51 +3,56 @@ const router = express.Router()
 
 const Chat = require("../Models/chatModel")
 const User = require("../Models/userModel")
-const protect = require("../middlewares/verifyJWT")
+const verifyJWT = require("../middlewares/verifyJWT")
 
-// access chat
-router.post("/", async(req, res) => {
+// access chats
+router.post("/", verifyJWT, async(req, res) => {
     const { userId } = req.body;
 
     if (!userId) {
-        return res.status(400).json({ msg: 'User Id not defined', status: "error" })
+        return res.status(400).json({ msg: "User id is not defined" })
     }
 
     var isChat = await Chat.find({
-        isGroupChat: false,
-        $and: [
-            { users: { $elemMatch: { $eq: req.user._id } } },
-            { users: { $elemMatch: { $eq: req.user.userId } } },
-        ]
-    }).populate("users", "-password").populate("latestMessage")
+            isGroupChat: false,
+            $and: [
+                { users: { $elemMatch: { $eq: req.user.id } } },
+                { users: { $elemMatch: { $eq: userId } } }
+            ],
+        }).populate("users", "-password")
+        .populate("latestMessage")
 
     isChat = await User.populate(isChat, {
-        path: 'latestMessage.sender',
+        path: "latestMessage.sender",
         select: "name picture email"
     })
 
     if (isChat.length > 0) {
         res.send(isChat[0])
     } else {
+        var chat = await User.find({ _id: userId })
         var chatData = {
-            chatName: "sender",
-            usGroupChat: false,
+            chatName: chat[0].name,
+            isGroupChat: false,
             users: [req.user._id, userId]
         }
+
         try {
-            const createdChat = await Chat.create(chatData);
-            const fulChat = await Chat.findOne({ _id: createdChat._id }).populate("users", "-password");
-            res.status(200).json("Chat created")
+            const createdChat = await Chat.create(chatData)
+            const fullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+                "users",
+                "-password"
+            )
+
+            return res.status(200).json(fullChat)
         } catch (error) {
-            return res.status(400).json({ error: error })
+            return res.status(400).json({ msg: "Error in creating chat" })
         }
     }
-
-
 })
 
 // fetch chats
-// router.get("/", protect, async(req, res) => {
+// router.get("/", verifyJWT, async(req, res) => {
 //     try {
 //         Chat.find({ users: { $elemMatch: { $ep: req.user._id } } })
 //             .populate("users", "-password")
@@ -57,10 +62,12 @@ router.post("/", async(req, res) => {
 //             .then(async(results) => {
 //                 results = await User.populate(results, {
 //                     path: "latestMessage.sender",
-//                     select: "name picture email"
+//                     select: "name picture"
 //                 })
 //             })
 //     } catch {
 
 //     }
 // })
+
+module.exports = router
