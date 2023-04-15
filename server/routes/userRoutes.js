@@ -5,14 +5,14 @@ const jwt = require('jsonwebtoken')
 
 const generateToken = require("../config/generateToken")
 const User = require("../Models/userModel");
+const verifyJWT = require("../middlewares/verifyJWT")
 
+// register
 router.post("/register", async(req, res) => {
     const user = req.body
     user.password = await bcrypt.hash(user.password, 10)
     user.name = user.name.toLowerCase()
     user.email = user.email.toLowerCase()
-
-    // console.log(generateToken())
 
     const existingUser = await User.findOne({ email: user.email })
     if (existingUser) return res.status(400).json({ msg: 'User already exists. Try to Login instead', status: 'error' })
@@ -30,6 +30,7 @@ router.post("/register", async(req, res) => {
     return res.status(200).json({ user: newUser, status: 'ok', msg: 'Successfully Logged In!', token: token })
 });
 
+// login
 router.post('/login', async(req, res) => {
     const user = req.body
     try {
@@ -55,6 +56,22 @@ router.post('/login', async(req, res) => {
     } catch (err) {
         return res.status(500).json({ msg: 'Sorry! Some internal server error', error: err, status: 'error' })
     }
+})
+
+// search user
+router.post('/', verifyJWT, async(req, res) => {
+    const search = req.query.search ? {
+        $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } }
+        ]
+
+    } : {};
+    // const users = await User.find(search)
+    // res.send(users)
+
+    const users = await User.find(search).find({ _id: { $ne: req.user.id } })
+    return res.send(users)
 })
 
 module.exports = router;
