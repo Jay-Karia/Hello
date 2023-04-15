@@ -52,22 +52,24 @@ router.post("/", verifyJWT, async(req, res) => {
 })
 
 // fetch chats
-// router.get("/", verifyJWT, async(req, res) => {
-//     try {
-//         Chat.find({ users: { $elemMatch: { $ep: req.user._id } } })
-//             .populate("users", "-password")
-//             .populate("groupAdmin", "-password")
-//             .populate("latestMessage")
-//             .sort({ updatedAt })
-//             .then(async(results) => {
-//                 results = await User.populate(results, {
-//                     path: "latestMessage.sender",
-//                     select: "name picture"
-//                 })
-//             })
-//     } catch {
+router.get("/", verifyJWT, async(req, res) => {
+    try {
+        Chat.find({ users: req.user })
+            .populate("users", "-password")
+            .populate("groupAdmin", "-password")
+            .populate("latestMessage")
+            .sort({ updatedAt: -1 })
+            .then(async(results) => {
+                results = await User.populate(results, {
+                    path: "latestMessage,sender",
+                    select: "name picture email"
+                })
 
-//     }
-// })
+                return res.status(200).json({ results: results })
+            })
+    } catch (error) {
+        return res.status(400).json({ error: error })
+    }
+})
 
 module.exports = router
