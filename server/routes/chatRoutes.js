@@ -72,4 +72,36 @@ router.get("/", verifyJWT, async(req, res) => {
     }
 })
 
+router.post("/group", verifyJWT, async(req, res) => {
+    var { users, groupName } = req.body;
+
+    try {
+        if (!users || !groupName)
+            return res.status(400).json({ msg: "Group name or users not specified" })
+
+        users = JSON.parse(users)
+
+        if (users.length < 2)
+            return res.status(400).json({ msg: "more than 2 users required to create group" })
+
+        users.push(req.user)
+
+        const groupChat = await Chat.create({
+            chatName: groupName,
+            users: users,
+            isGroupChat: true,
+            groupAdmin: req.body.user,
+        })
+
+        const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+            .populate("users", "-password")
+            .populate("groupAdmin", "-password")
+
+        return res.status(200).json({ groupChat: fullGroupChat })
+
+    } catch (error) {
+        return res.status(400).json({ err: error })
+    }
+})
+
 module.exports = router
