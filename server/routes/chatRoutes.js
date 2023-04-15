@@ -91,7 +91,7 @@ router.post("/group", verifyJWT, async(req, res) => {
             chatName: groupName,
             users: users,
             isGroupChat: true,
-            groupAdmin: req.body.user,
+            groupAdmin: req.user.id,
         })
 
         const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
@@ -110,12 +110,52 @@ router.post("/group/rename/", verifyJWT, async(req, res) => {
     const { chatId, chatName } = req.body;
 
     try {
+
+        if (!chatId || !chatName)
+            return res.status(400).json({ msg: "chat id or chat name not specified" })
+
         const groupChat = await Chat.findByIdAndUpdate(chatId, { chatName: chatName })
 
         const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("users", "-password")
             .populate("groupAdmin", "-password")
 
         return res.status(200).json({ groupChat: fullGroupChat })
+    } catch (error) {
+        return res.status(400).json({ error: error })
+    }
+})
+
+// add new user/s to a group
+router.post("/group/add", verifyJWT, async(req, res) => {
+    let { chatId, users } = req.body
+
+    try {
+
+        if (!chatId || !users)
+            return res.status(400).json({ msg: "chat id or users not specified" })
+
+        users = JSON.parse(users)
+
+        const chat = await Chat.findOne({ _id: chatId })
+        var existingUsers = chat.users
+
+        if (req.user.id == chat.groupAdmin) {
+            for (var i = 0; i < existingUsers.length; i++) {
+                for (var j = 0; j < users.length; j++)
+                    if (existingUsers[i] == users[j])
+                        return res.status(400).json({ msg: "Cannot add existing user to the group" })
+
+                users.push(existingUsers[i])
+            }
+
+            const newChat = await Chat.findByIdAndUpdate(chatId, { users: users })
+            const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
+
+            return res.status(200).json({ chat: fullNewChat })
+
+        } else
+            return res.status(400).json({ msg: "not a group admin" })
+
     } catch (error) {
         return res.status(400).json({ error: error })
     }
