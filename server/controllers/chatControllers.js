@@ -181,6 +181,8 @@ const removeUser = async(req, res) => {
             existingUsers[i] = Users.id
         }
 
+        var p = 0
+
         if (req.user.id == chat.groupAdmin) {
             for (var i = 0; i < existingUsers.length; i++) {
                 for (var j = 0; j < users.length; j++) {
@@ -190,11 +192,14 @@ const removeUser = async(req, res) => {
                         const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
 
                         return res.status(200).json({ chat: fullNewChat })
-                    }
-                    // return res.status(400).json({ msg: "User does not exists in the group" })
+                    } else
+                        p = -1;
                 }
 
             }
+
+            if (p != 1)
+                return res.status(400).json({ msg: "User does not exists in the group" })
 
 
         } else
