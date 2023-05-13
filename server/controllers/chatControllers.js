@@ -24,7 +24,7 @@ const access = async(req, res) => {
     })
 
     if (isChat.length > 0) {
-        res.send(isChat[0])
+        return res.status(200).json({ msg: "Chat accessed successfully", status: "success", chat: isChat[0] })
     } else {
         var chat = await User.find({ _id: userId })
         var chatData = {
@@ -40,9 +40,9 @@ const access = async(req, res) => {
                 "-password"
             )
 
-            return res.status(200).json(fullChat)
+            return res.status(200).json({ msg: "Chat accessed successfully", status: "success", fullChat })
         } catch (error) {
-            return res.status(400).json({ msg: "Error in creating chat" })
+            return res.status(400).json({ msg: "Error in creating chat", status: "error" })
         }
     }
 }
@@ -61,10 +61,10 @@ const fetchChats = async(req, res) => {
                     select: "name picture email"
                 })
 
-                return res.status(200).json({ results: results })
+                return res.status(200).json({ results: results, msg: "Chats loaded successfully", status: "success" })
             })
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(400).json({ error: error, msg: "Error occurred while loading chats", status: "error" })
     }
 }
 
@@ -186,21 +186,16 @@ const removeUser = async(req, res) => {
         if (req.user.id == chat.groupAdmin) {
             for (var i = 0; i < existingUsers.length; i++) {
                 for (var j = 0; j < users.length; j++) {
-                    if (existingUsers[i] === users[j]) {
+                    if (existingUsers[i] === users[j])
                         existingUsers.splice(i, 1)
-                        const newChat = await Chat.findByIdAndUpdate(chatId, { users: existingUsers })
-                        const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
-
-                        return res.status(200).json({ chat: fullNewChat })
-                    } else
-                        p = -1;
                 }
 
             }
 
-            if (p != 1)
-                return res.status(400).json({ msg: "User does not exists in the group" })
 
+            const newChat = await Chat.findByIdAndUpdate(chatId, { users: existingUsers })
+            const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
+            return res.status(200).json({ chat: fullNewChat })
 
         } else
             return res.status(400).json({ msg: "not a group admin" })

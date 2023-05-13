@@ -7,17 +7,13 @@ async function verifyJWT(req, res, next) {
         if (token) {
             jwt.verify(token, process.env.JWT_SECRET, async(err, decoded) => {
                 if (err) {
-                    // return res.json({
-                    //     isLoggedIn: false,
-                    //     msg: 'Failed to Authenticate',
-                    //     err: err
-                    // })
+                    return res.json({
+                        isLoggedIn: false,
+                        msg: 'Failed to Authenticate',
+                        err: err
+                    })
                 } else {
                     const user = await User.findById(decoded.id)
-                        // res.status(200).json({
-                        //         payload: user,
-                        //         status: 'ok'
-                        // })
                     req.user = user
                     next()
                 }

@@ -4,6 +4,7 @@ const User = require("../Models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 
+
 // register
 const register = async(req, res) => {
     const user = req.body
@@ -64,6 +65,7 @@ const searchUser = async(req, res) => {
         ]
 
     } : {};
+
     const users = await User.find(search).find({ _id: { $ne: req.user.id } })
     return res.send(users)
 }
