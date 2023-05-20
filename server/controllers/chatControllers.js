@@ -3,28 +3,31 @@ const User = require("../Models/userModel")
 
 // access chats
 const access = async(req, res) => {
-    const { userId } = req.body;
+    const { chatId, userId, secondUser } = req.body;
 
     if (!userId) {
         return res.status(400).json({ msg: "User id is not defined" })
     }
 
-    var isChat = await Chat.find({
-            isGroupChat: false,
-            $and: [
-                { users: { $elemMatch: { $eq: req.user.id } } },
-                { users: { $elemMatch: { $eq: userId } } }
-            ],
-        }).populate("users", "-password")
+    var chat = await Chat.findById(chatId).populate("users", "-password")
         .populate("latestMessage")
 
-    isChat = await User.populate(isChat, {
+
+    chat = await User.populate(chat, {
         path: "latestMessage.sender",
         select: "name picture email"
     })
 
-    if (isChat.length > 0) {
-        return res.status(200).json({ msg: "Chat accessed successfully", status: "success", chat: isChat[0] })
+    if (secondUser) {
+        var existChat = await Chat.find({ users: [secondUser, userId] })
+        if (existChat.length > 0) {
+            return res.status(200).json({ msg: "Chat accessed successfully", status: "success", chat: existChat[0] })
+        }
+    }
+
+
+    if (chat) {
+        return res.status(200).json({ msg: "Chat accessed successfully", status: "success", chat: chat })
     } else {
         var chat = await User.find({ _id: userId })
         var chatData = {
@@ -40,7 +43,7 @@ const access = async(req, res) => {
                 "-password"
             )
 
-            return res.status(200).json({ msg: "Chat accessed successfully", status: "success", fullChat })
+            return res.status(200).json({ msg: "New chat created successfully", status: "success", "chat": fullChat })
         } catch (error) {
             return res.status(400).json({ msg: "Error in creating chat", status: "error" })
         }
@@ -73,28 +76,40 @@ const createGroup = async(req, res) => {
     var { users, groupName } = req.body;
 
     try {
-        if (!users || !groupName)
+        if (!users || !groupName || users.length < 0)
             return res.status(400).json({ msg: "Group name or users not specified" })
 
-        users = JSON.parse(users)
+        // users = JSON.parse(users)
 
         if (users.length < 2)
-            return res.status(400).json({ msg: "more than 2 users required to create group" })
+            return res.status(400).json({ msg: "More than 2 users required to create group" })
 
         users.push(req.user)
 
-        const groupChat = await Chat.create({
-            chatName: groupName,
-            users: users,
-            isGroupChat: true,
-            groupAdmin: req.user.id,
+        const check = await Chat.find({
+            chatName: groupName
         })
 
-        const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
-            .populate("users", "-password")
-            .populate("groupAdmin", "-password")
+        if (check.length > 0) {
+            return res.status(400).json({ msg: "Group already exists", status: "error" })
+        } else {
+            const groupChat = await Chat.create({
+                chatName: groupName,
+                users: users,
+                isGroupChat: true,
+                groupAdmin: req.user.id,
+            })
+            const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+                .populate("users", "-password")
+                .populate("groupAdmin", "-password")
 
-        return res.status(200).json({ groupChat: fullGroupChat })
+            return res.status(200).json({
+                msg: "Group created successfully",
+                status: "success",
+                groupChat: fullGroupChat
+            })
+        }
+
 
     } catch (error) {
         return res.status(400).json({ err: error })
