@@ -3,8 +3,10 @@ const dotenv = require("dotenv");
 const cors = require('cors')
 
 const connectDB = require("./config/connectDB");
+
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes")
+const messageRoutes = require("./routes/messageRoutes")
 
 const app = express();
 dotenv.config();
@@ -21,3 +23,4 @@ app.listen(PORT, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes)
+app.use("/api/message", messageRoutes)
