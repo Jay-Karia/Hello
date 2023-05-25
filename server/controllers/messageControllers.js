@@ -31,6 +31,8 @@ const sendMessage = (async(req, res) => {
 
         return res.status(200).json({ msg: "Message sent successfully", status: "success", message: message })
 
+        // return res.json({ msg: "success", newMessage: newMessage })
+
     } catch (error) {
         return res.status(200).json({ msg: "Could not send message", status: "error", error: error })
     }
@@ -41,8 +43,9 @@ const allMessages = async(req, res) => {
     const chatId = req.params.chatId
     try {
         const messages = await Message.find({ chat: chatId })
-            .populate("sender", "name pic email")
+            .populate("sender", "name email picture")
             .populate("chat")
+            // .populate("picture")
 
 
         return res.status(200).json({ msg: "All messages accessed successfully", status: "success", messages: messages })
@@ -52,4 +55,18 @@ const allMessages = async(req, res) => {
 
 }
 
-module.exports = { sendMessage, allMessages }
+// get message
+const getMessage = async(req, res) => {
+    const id = req.params.messageId
+
+    try {
+        const message = await Message.findById(id)
+            .populate("sender", "name pic email")
+            .populate("chat")
+        return res.status(200).json({ msg: "Accessed message successfully", status: "success", message: message })
+    } catch (error) {
+        return res.status(400).json({ msg: "Could not get message", error: error, status: "error" })
+    }
+}
+
+module.exports = { sendMessage, allMessages, getMessage }

@@ -1,5 +1,6 @@
 const Chat = require("../Models/chatModel")
 const User = require("../Models/userModel")
+const Message = require("../Models/messageModel")
 
 // access chats
 const access = async(req, res) => {
@@ -56,14 +57,13 @@ const fetchChats = async(req, res) => {
         Chat.find({ users: req.user })
             .populate("users", "-password")
             .populate("groupAdmin", "-password")
-            .populate("latestMessage")
             .sort({ updatedAt: -1 })
             .then(async(results) => {
                 results = await User.populate(results, {
-                    path: "latestMessage,sender",
-                    select: "name picture email"
-                })
-
+                        path: "latestMessage.content,sender",
+                        select: "name picture email"
+                    })
+                    // console.log(results)
                 return res.status(200).json({ results: results, msg: "Chats loaded successfully", status: "success" })
             })
     } catch (error) {
@@ -130,9 +130,9 @@ const renameGroup = async(req, res) => {
         const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate("users", "-password")
             .populate("groupAdmin", "-password")
 
-        return res.status(200).json({ groupChat: fullGroupChat })
+        return res.status(200).json({ msg: "Group name updated successfully", status: "success", groupChat: fullGroupChat })
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(400).json({ msg: "Could not update name", status: "error", error: error })
     }
 }
 
@@ -179,45 +179,49 @@ const addUser = async(req, res) => {
 
 // remove user/s from the group
 const removeUser = async(req, res) => {
-    let { chatId, users } = req.body
+    let { chatId, user } = req.body
 
     try {
+        if (user == req.user._id) {
+            return res.status(400).json({ msg: "Could not remove yourself", status: "error" })
+        } else {
+            if (!chatId || !user)
+                return res.status(400).json({ msg: "chat id or users not specified" })
 
-        if (!chatId || !users)
-            return res.status(400).json({ msg: "chat id or users not specified" })
+            // users = JSON.parse(users)
 
-        users = JSON.parse(users)
+            const chat = await Chat.findOne({ _id: chatId })
+            var existingUsers = []
 
-        const chat = await Chat.findOne({ _id: chatId })
-        var existingUsers = []
-
-        for (var i = 0; i < chat.users.length; i++) {
-            const Users = await User.findById(chat.users[i])
-            existingUsers[i] = Users.id
-        }
-
-        var p = 0
-
-        if (req.user.id == chat.groupAdmin) {
-            for (var i = 0; i < existingUsers.length; i++) {
-                for (var j = 0; j < users.length; j++) {
-                    if (existingUsers[i] === users[j])
-                        existingUsers.splice(i, 1)
-                }
-
+            for (var i = 0; i < chat.users.length; i++) {
+                const Users = await User.findById(chat.users[i])
+                existingUsers[i] = Users.id
             }
 
+            var p = 0
 
-            const newChat = await Chat.findByIdAndUpdate(chatId, { users: existingUsers })
-            const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
-            return res.status(200).json({ chat: fullNewChat })
+            if (req.user.id == chat.groupAdmin) {
+                for (var i = 0; i < existingUsers.length; i++) {
+                    if (existingUsers[i] === user)
+                        existingUsers.splice(i, 1)
 
-        } else
-            return res.status(400).json({ msg: "not a group admin" })
+                }
+
+
+                const newChat = await Chat.findByIdAndUpdate(chatId, { users: existingUsers })
+                const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
+                return res.status(200).json({ msg: `Successfully removed user from the group`, status: "success", chat: fullNewChat })
+
+            } else
+                return res.status(400).json({ msg: "Not a group admin", status: "error" })
+        }
+
 
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(400).json({ msg: "Could not remove user", status: "error", error: error })
     }
 }
 
+module.exports = { access, fetchChats, createGroup, renameGroup, addUser, removeUser }
+module.exports = { access, fetchChats, createGroup, renameGroup, addUser, removeUser }
 module.exports = { access, fetchChats, createGroup, renameGroup, addUser, removeUser }
