@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 
 // register
 const register = async(req, res) => {
-    const user = req.body
+    const user = JSON.parse(req.body.body)
     user.password = await bcrypt.hash(user.password, 10)
     user.name = user.name.toLowerCase()
     user.email = user.email.toLowerCase()
@@ -25,12 +25,12 @@ const register = async(req, res) => {
     } catch (err) {
         return res.status(500).json({ msg: 'Sorry! Some internal server error', error: err, status: 'error' })
     }
-    return res.status(200).json({ user: newUser, status: 'ok', msg: 'Successfully Logged In!', token: token })
+    return res.status(200).json({ user: newUser, status: 'success', msg: 'Successfully Logged In!', token: token })
 }
 
 // login
 const login = async(req, res) => {
-    const user = req.body
+    const user = JSON.parse(req.body.body)
     try {
         const existingUser = await User.findOne({ email: user.email })
         if (existingUser) {
@@ -42,7 +42,7 @@ const login = async(req, res) => {
                     jwt.sign(payload, process.env.JWT_SECRET,
                         (err, token) => {
                             if (err) return res.status(400).json({ msg: err, status: "error" })
-                            return res.status(200).json({ user: existingUser, status: 'ok', msg: 'Successfully Logged In!', token: 'Bearer ' + token })
+                            return res.status(200).json({ user: existingUser, status: 'success', msg: 'Successfully Logged In!', token: 'Bearer ' + token })
                         })
                 } else {
                     return res.status(400).json({ msg: 'Email or password does not match', status: 'error' })
