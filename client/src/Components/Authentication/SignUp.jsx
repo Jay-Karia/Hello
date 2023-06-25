@@ -22,6 +22,8 @@ const SignUp = () => {
     const [passwordValidate, setPasswordValidate] = useState(false);
     const [cPassValidate, setCPassValidate] = useState(false);
 
+    const [profile, setProfile] = useState("");
+
     const [loading, setLoading] = useState(false);
     const toast = useToast();
 
@@ -43,6 +45,41 @@ const SignUp = () => {
             setCPassValidate(false);
         } else {
             setCPassValidate(true);
+        }
+    };
+
+    const postDetails = (picture) => {
+        setLoading(true);
+        if (picture === undefined) {
+            toast({
+                title: "Please select image",
+                status: "warning",
+                duration: "4000",
+                isClosable: true,
+                position: "bottom",
+            });
+            return;
+        }
+
+        if (picture.type === "image/jpg" || picture.type === "image/png") {
+            const data = new FormData();
+            data.append("file", picture);
+            data.append("upload_preset", "hello-chat-app");
+            data.append("cloud_name", "dkzytvwtx");
+            // console.log(data);
+            //   axios
+            //     .post("https://api.cloudinary.com/v1_1/dkzytvwtx", {
+            //       body: data
+            //     })
+            //     .then((res) => res.json())
+            //     .then((data) => {
+            //       setProfile(data);
+            //       console.log(picture);
+            //       setLoading(false);
+            //     })
+            //     .catch((err) => {
+            //       console.error(err);
+            //     });
         }
     };
 
@@ -116,6 +153,7 @@ const SignUp = () => {
                         });
                         if (response.status === "success") {
                             navigate("/chats");
+                            window.location.reload()
                             localStorage.setItem(
                                 "userInfo",
                                 JSON.stringify(response)
@@ -287,6 +325,21 @@ const SignUp = () => {
                             </Button>
                         </InputRightElement>
                     </InputGroup>
+                </FormControl>
+
+                <FormControl id="profile" isRequired="false">
+                    <FormLabel fontFamily="Barlow" fontWeight="500">
+                        Profile
+                    </FormLabel>
+                    <Input
+                        type="file"
+                        p={1.5}
+                        accept="image/*"
+                        onChange={(e) => {
+                            setProfile(postDetails(e.target.files[0]));
+                        }}
+                        style={{ border: "none" }}
+                    />
                 </FormControl>
 
                 <Button

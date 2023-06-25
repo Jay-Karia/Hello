@@ -78,6 +78,7 @@ const SignIn = () => {
                         });
                         if (response.status === "success") {
                             navigate("/chats");
+                            window.location.reload();
                             localStorage.setItem(
                                 "userInfo",
                                 JSON.stringify(response)
