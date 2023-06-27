@@ -3,10 +3,9 @@ import "./App.css";
 import { Container } from "@chakra-ui/react";
 import Navbar from "./Components/Navbar";
 import LoginRegister from "./Pages/LoginRegister";
+import ChatPage from "./Pages/ChatPage";
 
 import {
-    BrowserRouter as Router,
-    useRoutes,
     Routes,
     Route,
 } from "react-router-dom";
@@ -30,15 +29,13 @@ function App() {
                     scrollBehavior: "unset",
                 }}
             >
-                <Container>
+                    {/* <LoginRegister /> */}
                     <Routes>
-                        <Route
-                            exact
-                            to="/(login|register)/"
-                            component={<LoginRegister />}
-                        />
+                        <Route exact path="/login" element={<LoginRegister />} />
+                        <Route exact path="/register" element={<LoginRegister />} />
+                        <Route exact path="/" element={<LoginRegister />} />
+                        <Route exact path="/chats" element={<ChatPage/>} />
                     </Routes>
-                </Container>
             </Container>
         </div>
     );

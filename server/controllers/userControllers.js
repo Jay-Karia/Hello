@@ -31,6 +31,7 @@ const register = async(req, res) => {
 // login
 const login = async(req, res) => {
     const user = JSON.parse(req.body.body)
+    const newUser = await User.findOne({ email: user.email })
     try {
         const existingUser = await User.findOne({ email: user.email })
         if (existingUser) {
@@ -42,7 +43,7 @@ const login = async(req, res) => {
                     jwt.sign(payload, process.env.JWT_SECRET,
                         (err, token) => {
                             if (err) return res.status(400).json({ msg: err, status: "error" })
-                            return res.status(200).json({ user: existingUser, status: 'success', msg: 'Successfully Logged In!', token: 'Bearer ' + token })
+                            return res.status(200).json({ user: existingUser, status: 'success', msg: 'Successfully Logged In!', token: 'Bearer ' + generateToken(newUser._id) })
                         })
                 } else {
                     return res.status(400).json({ msg: 'Email or password does not match', status: 'error' })

@@ -53,6 +53,7 @@ const access = async(req, res) => {
 
 // fetch chats
 const fetchChats = async(req, res) => {
+    console.log(req.user)
     try {
         Chat.find({ users: req.user })
             .populate("users", "-password")

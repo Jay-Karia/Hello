@@ -1,0 +1,37 @@
+[{
+        "title": "Source Code",
+        "description": "Check the source code on github repository",
+        "link": "https://github.com/Jay-Karia/Hello",
+        "bgcolor": "background: rgb(255,0,164);background: linear-gradient(35deg, rgba(255,0,164,0.5298494397759104) 0%, rgba(227,47,153,0.5186449579831933) 41%, rgba(228,106,164,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
+    },
+    {
+        "title": "Feedback",
+        "description": "Give your precious feedback on this project",
+        "link": "",
+        "bgcolor": "background: rgb(255,25,0);background: linear-gradient(35deg, rgba(255,25,0,0.5298494397759104) 0%, rgba(227,71,47,0.5186449579831933) 41%, rgba(228,153,106,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
+    },
+    {
+        "title": "Support",
+        "description": "Support me for more projects like this",
+        "link": "",
+        "bgcolor": "background: rgb(255,201,0);background: linear-gradient(35deg, rgba(255,201,0,0.5298494397759104) 0%, rgba(205,227,47,0.5186449579831933) 41%, rgba(201,228,106,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
+    },
+    {
+        "title": "Rate",
+        "description": "Rate this project ",
+        "link": "",
+        "bgcolor": "background: rgb(0,74,255);background: linear-gradient(35deg, rgba(0,74,255,0.5298494397759104) 0%, rgba(47,156,227,0.5186449579831933) 41%, rgba(106,228,221,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
+    },
+    {
+        "title": "About the Developer",
+        "description": "Know more about the developer",
+        "link": "https://github.com/Jay-Karia",
+        "bgcolor": "background: rgb(13,13,13);background: linear-gradient(35deg, rgba(13,13,13,0.5298494397759104) 0%, rgba(156,179,173,0.5186449579831933) 41%, rgba(218,232,228,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
+    },
+    {
+        "title": "Share",
+        "description": "Share for more fun",
+        "link": "",
+        "bgcolor": "background: rgb(4,62,9);background: linear-gradient(35deg, rgba(4,62,9,0.5298494397759104) 0%, rgba(19,154,32,0.5186449579831933) 41%, rgba(106,228,128,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
+    }
+]
