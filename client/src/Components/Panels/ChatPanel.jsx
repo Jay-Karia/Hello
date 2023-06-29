@@ -18,23 +18,25 @@ const ChatPannel = () => {
   const [selectedChat, setSelectedChat] = useState();
   const [latestMessage, setLatestMessage] = useState([]);
 
+  const token = JSON.parse(localStorage.getItem("userInfo")).token
+
   const toast = useToast();
 
   const getChats = async () => {
     setLoading(true);
+    console.log(token)
     try {
       await fetch("http://localhost:8000/api/chat/", {
         method: "GET",
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         }
       })
         .then((res) => res.json())
         .then(async (data) => {
           setChats(data.results);
-          console.log(data.results)
           localStorage.setItem("chats", JSON.stringify(data.results));
           setLoading(false);
           // for (let i = 0; i < chats.length; i++) {
@@ -93,7 +95,7 @@ const ChatPannel = () => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         },
         body: JSON.stringify({ chatId: chatId, userId: userId })
       })
@@ -211,6 +213,7 @@ const ChatPannel = () => {
                           fontSize="15px"
                           fontWeight="300"
                         >
+                        {chats[i].latestMessage}
                           {/* {latestMessage[i]} */}
                         </Text>
                         <Text

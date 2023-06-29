@@ -7,13 +7,12 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 // Images
 import source from "../assets/links/source.jpg";
 import support from "../assets/links/support.jpg";
-import feedback from "../assets/links/feedback.jpg";
 import rate from "../assets/links/rate.jpg";
 import about from "../assets/links/about.jpg";
 import share from "../assets/links/share.jpg";
 
 const LinkPanel = () => {
-  const images = [source, feedback, support, rate, about, share];
+  const images = [source, support, rate, about, share];
   return (
     <>
       <Container w="100%" h="100%" p="0">
@@ -65,7 +64,7 @@ const LinkPanel = () => {
                       margin="2px 0 0 20px"
                     ></Image>
                   </Container>
-                  <Text fontSize="15px" fontWeight="600" margin="5px 0 0 0">
+                  <Text fontSize="15px" fontWeight="600" margin="5px 0 0 0" align="left">
                     {e.description}
                   </Text>
                   <Link href={e.link} target="_blank">

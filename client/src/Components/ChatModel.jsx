@@ -54,6 +54,8 @@ const ChatModel = (props) => {
 
   const toast = useToast();
 
+  const token = JSON.parse(localStorage.getItem("userInfo")).token
+
   const dispatch = useDispatch();
   const currentChat = useSelector((state) => state.chat);
 
@@ -65,7 +67,7 @@ const ChatModel = (props) => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         }
       })
         .then((res) => res.json())
@@ -97,7 +99,7 @@ const ChatModel = (props) => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         },
         body: JSON.stringify({ chatId: chatId, userId: userId })
       })
@@ -125,7 +127,7 @@ const ChatModel = (props) => {
       headers: {
         "Content-type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+          token
       },
       body: JSON.stringify({
         chatId: chatId,
@@ -151,7 +153,7 @@ const ChatModel = (props) => {
       headers: {
         "Content-type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+          token
       },
       body: JSON.stringify({
         chatId: chatId,
@@ -174,7 +176,6 @@ const ChatModel = (props) => {
     for (let i = 0; i < selected.length; i++) {
       ids[i] = selected[i]._id;
     }
-    console.log(ids);
   };
 
   const searchUser = async (search) => {
@@ -185,7 +186,7 @@ const ChatModel = (props) => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTU1MjAzN30.hhGYy4Qm0SA0CL_8udFnynvTHuKgzwT7LGuUuHqatss"
+            token
         }
       })
         .then((res) => res.json())

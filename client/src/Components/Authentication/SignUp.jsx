@@ -48,7 +48,7 @@ const SignUp = () => {
         }
     };
 
-    const postDetails = (picture) => {
+    const postDetails = async(picture) => {
         setLoading(true);
         if (picture === undefined) {
             toast({
@@ -66,20 +66,20 @@ const SignUp = () => {
             data.append("file", picture);
             data.append("upload_preset", "hello-chat-app");
             data.append("cloud_name", "dkzytvwtx");
-            // console.log(data);
-            //   axios
-            //     .post("https://api.cloudinary.com/v1_1/dkzytvwtx", {
-            //       body: data
-            //     })
-            //     .then((res) => res.json())
-            //     .then((data) => {
-            //       setProfile(data);
-            //       console.log(picture);
-            //       setLoading(false);
-            //     })
-            //     .catch((err) => {
-            //       console.error(err);
-            //     });
+            console.log(data);
+              axios
+                .post("https://api.cloudinary.com/v1_1/dkzytvwtx", {
+                  body: data
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                  setProfile(data);
+                  console.log(picture);
+                  setLoading(false);
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
         }
     };
 

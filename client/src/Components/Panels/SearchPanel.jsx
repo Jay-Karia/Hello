@@ -28,6 +28,8 @@ const SearchPannel = () => {
 
   const toast = useToast();
 
+  const token = JSON.parse(localStorage.getItem("userInfo")).token
+
   const dispatch = useDispatch();
 
   const searchUser = async () => {
@@ -39,7 +41,7 @@ const SearchPannel = () => {
           headers: {
             "Content-type": "application/json",
             authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTU1MjAzN30.hhGYy4Qm0SA0CL_8udFnynvTHuKgzwT7LGuUuHqatss"
+              token
           }
         })
           .then((res) => res.json())
@@ -70,7 +72,7 @@ const SearchPannel = () => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         },
         body: JSON.stringify({ userId: user_id, secondUser: userId })
       })
@@ -190,7 +192,7 @@ const SearchPannel = () => {
                       {searchResult[i].name}
                     </Text>
                     <Text fontFamily="Inter" fontWeight="300" align="left">
-                      {searchResult[i].email}
+                      {searchResult[i].email.length > 21 ? searchResult[i].email.substring(0, 22) + "..." : searchResult[i].email}
                     </Text>
                   </Container>
                 </Container>

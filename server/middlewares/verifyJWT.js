@@ -13,7 +13,7 @@ async function verifyJWT(req, res, next) {
                         err: err
                     })
                 } else {
-                    const user = await User.findById(decoded.id)
+                    const user = await User.findById(decoded.id).select("-password")
                     req.user = user
                     next()
                 }

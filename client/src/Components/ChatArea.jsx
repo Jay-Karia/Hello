@@ -34,6 +34,8 @@ const ChatArea = () => {
   const [messages, setMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
+  const token = JSON.parse(localStorage.getItem("userInfo")).token
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
@@ -56,7 +58,7 @@ const ChatArea = () => {
         headers: {
           "Content-type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         },
         body: JSON.stringify({
           content: message,
@@ -92,7 +94,7 @@ const ChatArea = () => {
         headers: {
           "Content-type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
+            token
         }
       }
     )

@@ -35,6 +35,8 @@ const CreateGroupPannel = () => {
 
   const toast = useToast();
 
+  const token = JSON.parse(localStorage.getItem("userInfo")).token
+
   const postDetails = (picture) => {
     setLoading(true);
     if (picture === undefined) {
@@ -82,7 +84,7 @@ const CreateGroupPannel = () => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTU1MjAzN30.hhGYy4Qm0SA0CL_8udFnynvTHuKgzwT7LGuUuHqatss"
+            token
         },
         body: JSON.stringify({
           groupName: groupName,
@@ -111,7 +113,7 @@ const CreateGroupPannel = () => {
         headers: {
           "Content-type": "application/json",
           authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTU1MjAzN30.hhGYy4Qm0SA0CL_8udFnynvTHuKgzwT7LGuUuHqatss"
+            token
         }
       })
         .then((res) => res.json())
