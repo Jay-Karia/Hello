@@ -101,7 +101,6 @@ const ChatPannel = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           setSelectedChat(data);
           localStorage.setItem("selectedChat", JSON.stringify(data));
           dispatch(chatActions.select(data));

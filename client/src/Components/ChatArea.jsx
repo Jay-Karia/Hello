@@ -24,6 +24,10 @@ import { useDispatch } from "react-redux";
 
 import no_conversation from "./assets/no conversation.jpg";
 
+import io from "socket.io-client"
+const ENDPOINT = "http://localhost:8000"
+var socket, selectedChatCompare;
+
 const ChatArea = () => {
   // const [chat, setChat] = useState([]);
   const [message, setMessage] = useState();
@@ -129,6 +133,11 @@ const ChatArea = () => {
       messages[i].sender._id !== userId
     );
   };
+
+  useEffect(() => {
+    socket = io(ENDPOINT)
+  }, [])
+  
 
   return (
     <>
