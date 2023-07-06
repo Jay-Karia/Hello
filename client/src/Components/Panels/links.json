@@ -6,14 +6,14 @@
     },
     {
         "title": "Support",
-        "description": "Support me for more projects like this",
-        "link": "",
+        "description": "Leave a star on the github repo",
+        "link": "https://github.com/Jay-Karia/Hello",
         "bgcolor": "background: rgb(255,201,0);background: linear-gradient(35deg, rgba(255,201,0,0.5298494397759104) 0%, rgba(205,227,47,0.5186449579831933) 41%, rgba(201,228,106,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
     },
     {
         "title": "Rate",
         "description": "Rate this project ",
-        "link": "",
+        "link": "https://rate-us.jaysk.repl.co",
         "bgcolor": "background: rgb(0,74,255);background: linear-gradient(35deg, rgba(0,74,255,0.5298494397759104) 0%, rgba(47,156,227,0.5186449579831933) 41%, rgba(106,228,221,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
     },
     {
@@ -25,7 +25,7 @@
     {
         "title": "Share",
         "description": "Share for more fun",
-        "link": "",
+        "link": "http://localhost:3000/",
         "bgcolor": "background: rgb(4,62,9);background: linear-gradient(35deg, rgba(4,62,9,0.5298494397759104) 0%, rgba(19,154,32,0.5186449579831933) 41%, rgba(106,228,128,0.5074404761904762) 67%, rgba(255,255,255,0.7875525210084033) 100%);"
     }
 ]

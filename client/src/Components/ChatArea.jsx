@@ -32,12 +32,13 @@ const ChatArea = () => {
   // const [chat, setChat] = useState([]);
   const [message, setMessage] = useState();
   const [loading, setLoading] = useState(false);
+
+  const [socketConnected, setSocketConnected] = useState(false)
   const toast = useToast();
 
   const [fetchLoading, setFetchLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
   const token = JSON.parse(localStorage.getItem("userInfo")).token
 
   const [user, setUser] = useState(
@@ -75,6 +76,7 @@ const ChatArea = () => {
           let newArr = [...messages];
           newArr.push(data.messages);
           setMessages(newArr);
+          socket.emit("new message", data)
           localStorage.setItem("messages", messages);
           // alert(JSON.stringify(messages));
         });
@@ -106,14 +108,18 @@ const ChatArea = () => {
       .then((data) => {
         setFetchLoading(false);
         setMessages(data.messages);
-        // alert(JSON.stringify(data.messages));
+        socket.emit("join chat", currentChat.payload.chat._id)
         localStorage.setItem("messages", JSON.stringify(messages));
       });
   };
 
   useEffect(() => {
-    getAllMessages();
+    try {
+      getAllMessages();
+      selectedChatCompare = currentChat.payload.chat
+    } catch {}
   }, [currentChat.payload]);
+  
 
   const typingHandler = () => {};
 
@@ -136,7 +142,26 @@ const ChatArea = () => {
 
   useEffect(() => {
     socket = io(ENDPOINT)
+    console.log("here on connection")
+    socket.emit("setup", user)
+    socket.on("connection", ()=> {
+      alert("socket connected!!!")
+      setSocketConnected(true)
+    })
+
   }, [])
+
+  useEffect(() => {
+    socket.on("message received", (newMessageReceived) => {
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
+        // Give notification
+      } else {
+        setMessage([...messages, newMessageReceived])
+        alert("new message received!!!")
+        getAllMessages()
+      }
+    })
+  }, [messages])
   
 
   return (

@@ -171,11 +171,24 @@ const ChatModel = (props) => {
       });
   };
 
-  const addUser = () => {
+  const addUser = async () => {
     let ids = [];
     for (let i = 0; i < selected.length; i++) {
       ids[i] = selected[i]._id;
     }
+
+    await axios.post("http://localhost:8000/api/chat/group/add", {
+        headers: {
+          'Content-type': "application/json",
+          authorization: token
+        },
+        body: {
+          users: ids
+        }
+      })
+      .then(data=> {
+        console.log(data)
+      })
   };
 
   const searchUser = async (search) => {

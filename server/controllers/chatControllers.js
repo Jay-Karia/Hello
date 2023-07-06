@@ -139,7 +139,7 @@ const renameGroup = async(req, res) => {
 // add new User/s to the group
 const addUser = async(req, res) => {
     let { chatId, users } = req.body
-
+    console.log(users)
     try {
 
         if (!chatId || !users)

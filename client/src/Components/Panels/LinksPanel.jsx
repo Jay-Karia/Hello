@@ -4,6 +4,8 @@ import { Container, Text, Button, Image, Link } from "@chakra-ui/react";
 import links from "../Panels/links.json";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
+import { useNavigate } from "react-router-dom";
+
 // Images
 import source from "../assets/links/source.jpg";
 import support from "../assets/links/support.jpg";
@@ -13,6 +15,8 @@ import share from "../assets/links/share.jpg";
 
 const LinkPanel = () => {
   const images = [source, support, rate, about, share];
+
+  const navigate = useNavigate()
   return (
     <>
       <Container w="100%" h="100%" p="0">
