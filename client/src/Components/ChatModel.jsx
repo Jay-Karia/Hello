@@ -14,7 +14,6 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
-  Avatar,
   Text
 } from "@chakra-ui/react";
 
@@ -37,6 +36,8 @@ import {
   RiUserSearchLine,
   RiCloseLine
 } from "react-icons/ri";
+
+import { Avatar } from '@chakra-ui/react'
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -395,16 +396,7 @@ const ChatModel = (props) => {
                           setSearchResults(arr);
                         }}
                       >
-                        <Image
-                          src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-                          height="35px"
-                          style={{
-                            aspectRatio: "1"
-                          }}
-                          borderRadius="100px"
-                          border="1px solid black"
-                          marginRight="10px"
-                        ></Image>
+                        <Avatar name={e.name} size="sm" marginRight={"10px"}/>
                         <Text
                           fontFamily="Barlow"
                           fontWeight="500"
@@ -420,13 +412,7 @@ const ChatModel = (props) => {
             ) : (
               <>
                 <div class="avatar">
-                  <Avatar
-                    src={props.chat.users[1].picture}
-                    // mt="7px"
-                    nr={1}
-                    size="xl"
-                    cursor="pointer"
-                  ></Avatar>
+                  <Avatar name={props.chat.users[1].name} size="xl"/>
                 </div>
 
                 <div class="email">

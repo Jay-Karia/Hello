@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Text, Button, Image, useToast } from "@chakra-ui/react";
+import { Container, Text, Button, Image, useToast} from "@chakra-ui/react";
+import { Avatar } from '@chakra-ui/react'
 import no_chats from "../assets/no chats.jpg";
 import { Spinner } from "@chakra-ui/react";
 
@@ -181,7 +182,7 @@ const ChatPannel = () => {
                     }}
                     // borderRadius="15px"
                   >
-                    <Image
+                    {/* <Image
                       src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
                       style={{
                         aspectRatio: "1",
@@ -189,7 +190,8 @@ const ChatPannel = () => {
                         // border: "2px solid black",
                         borderRadius: "100px"
                       }}
-                    />
+                    /> */}
+                    <Avatar name={chats[i].chatName} />
                     <Container
                       style={{
                         display: "flex",

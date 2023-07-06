@@ -39,8 +39,9 @@ io.on('connection', (socket) => {
         socket.join(userData._id)
             // console.log(userData._id)
         socket.emit("connected")
-        console.log("Connected")
     })
+
+    socket.emit('connection')
 
     socket.on("join chat", (room) => {
         socket.join(room)

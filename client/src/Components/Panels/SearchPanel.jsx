@@ -9,8 +9,11 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  InputRightAddon
+  InputRightAddon,
 } from "@chakra-ui/react";
+
+import { Avatar } from '@chakra-ui/react'
+
 import { Spinner, useToast } from "@chakra-ui/react";
 
 import { useDispatch } from "react-redux";
@@ -175,18 +178,12 @@ const SearchPannel = () => {
                 <Container
                   style={{
                     display: "flex",
-                    flexDirection: "row"
+                    flexDirection: "row",
+                    alignItems:"center"
                   }}
                 >
-                  <Image
-                    src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-                    // border="2px solid black"
-                    borderRadius="100px"
-                    h="45px"
-                    style={{
-                      aspectRatio: "1"
-                    }}
-                  />
+                    <Avatar name={searchResult[i].name} style={{width:"40px", height:"40px"}}/>
+
                   <Container d="flex" flexDir="column">
                     <Text fontFamily="Inter" fontWeight="600" align="left">
                       {searchResult[i].name}

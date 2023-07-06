@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import { Container, Text } from "@chakra-ui/react";
 import { Link } from "@chakra-ui/react";
+import { Avatar } from '@chakra-ui/react'
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [name, setName] = useState("");
     const navigate = useNavigate();
 
     const logout = () => {
@@ -15,9 +17,14 @@ const Navbar = () => {
         window.location.reload();
     };
 
+
     useEffect(() => {
-        const user = localStorage.getItem("userInfo");
-        if (user) setIsLoggedIn(true);
+        let user = localStorage.userInfo
+        if (user) {
+            setIsLoggedIn(true)
+            user = JSON.parse(user).user
+            setName(user.name) 
+        } 
         else setIsLoggedIn(false);
     }, [isLoggedIn]);
     return (
@@ -43,21 +50,29 @@ const Navbar = () => {
                     <i>Hello</i>
                 </Link>
                 {isLoggedIn ? (
-                    <Text
-                        fontFamily="Inter"
-                        fontWeight="100"
-                        fontSize="15px"
-                        color="white"
-                        style={{
-                            textDecoration: "none",
-                            position: "absolute",
-                            right: "20px",
-                        }}
-                        onClick={logout}
-                        cursor="pointer"
-                    >
-                        Logout
-                    </Text>
+                    <>
+                        <Text
+                            fontFamily="Inter"
+                            fontWeight="100"
+                            fontSize="15px"
+                            color="white"
+                            style={{
+                                textDecoration: "none",
+                                position: "absolute",
+                                right: "80px",
+                            }}
+                            onClick={logout}
+                            cursor="pointer"
+                        >
+                            Logout
+                        </Text>
+                        <Avatar name={name} size="sm"  style={{
+                                textDecoration: "none",
+                                position: "absolute",
+                                right: "20px",
+                            }}/>
+                    </>
+                    
                 ) : (
                     <>
                         <Link

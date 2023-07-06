@@ -142,10 +142,8 @@ const ChatArea = () => {
 
   useEffect(() => {
     socket = io(ENDPOINT)
-    console.log("here on connection")
     socket.emit("setup", user)
     socket.on("connection", ()=> {
-      alert("socket connected!!!")
       setSocketConnected(true)
     })
 
@@ -157,7 +155,6 @@ const ChatArea = () => {
         // Give notification
       } else {
         setMessage([...messages, newMessageReceived])
-        alert("new message received!!!")
         getAllMessages()
       }
     })
@@ -190,15 +187,7 @@ const ChatArea = () => {
               // border="2px solid black"
               padding="5px"
             >
-              <Image
-                src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-                border="1px solid black"
-                borderRadius="100px"
-                h="40px"
-                style={{
-                  aspectRatio: "1"
-                }}
-              />
+               <Avatar name={currentChat.payload.chat.chatName} h="40px" w="40px"/>
               <Text
                 padding="0"
                 paddingLeft="10px"
