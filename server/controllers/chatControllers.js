@@ -144,13 +144,12 @@ const renameGroup = async(req, res) => {
 // add new User/s to the group
 const addUser = async(req, res) => {
     let { chatId, users } = req.body
-    console.log(users)
     try {
 
         if (!chatId || !users)
-            return res.status(400).json({ msg: "chat id or users not specified" })
+            return res.status(400).json({ msg: "chat id or users not specified", status: "error" })
 
-        users = JSON.parse(users)
+        // users = JSON.parse(users)
 
         const chat = await Chat.findOne({ _id: chatId })
         var existingUsers = []
@@ -164,7 +163,7 @@ const addUser = async(req, res) => {
             for (var i = 0; i < existingUsers.length; i++) {
                 for (var j = 0; j < users.length; j++)
                     if (existingUsers[i] == users[j])
-                        return res.status(400).json({ msg: "Cannot add existing user to the group" })
+                        return res.status(400).json({ msg: "Cannot add existing user to the group", status: "error" })
 
                 users.push(existingUsers[i])
             }
@@ -172,13 +171,20 @@ const addUser = async(req, res) => {
             const newChat = await Chat.findByIdAndUpdate(chatId, { users: users })
             const fullNewChat = await Chat.findOne({ _id: newChat._id }).populate("users", "-password").populate("groupAdmin", "-password")
 
-            return res.status(200).json({ chat: fullNewChat })
+            return res.status(200).json({
+                msg: "new user added to the group",
+                chat: fullNewChat,
+                status: "success"
+            })
 
         } else
             return res.status(400).json({ msg: "not a group admin" })
 
     } catch (error) {
-        return res.status(400).json({ error: error })
+        return res.status(400).json({
+            status: "error",
+            error: error
+        })
     }
 }
 

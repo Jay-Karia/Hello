@@ -173,23 +173,33 @@ const ChatModel = (props) => {
   };
 
   const addUser = async () => {
+    const chatId = props.chat._id;
     let ids = [];
     for (let i = 0; i < selected.length; i++) {
       ids[i] = selected[i]._id;
     }
 
-    await axios.post("http://localhost:8000/api/chat/group/add", {
-        headers: {
-          'Content-type': "application/json",
-          authorization: token
-        },
-        body: {
-          users: ids
-        }
+    await fetch("http://localhost:8000/api/chat/group/add", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization:
+          token
+      },
+      body: JSON.stringify({
+        chatId: chatId,
+        users: ids
       })
-      .then(data=> {
-        console.log(data)
-      })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast({
+          title: data.msg,
+          status: data.status,
+          duration: 5000,
+          isClosable: true
+        });
+      });
   };
 
   const searchUser = async (search) => {

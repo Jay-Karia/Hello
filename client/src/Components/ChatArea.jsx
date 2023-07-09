@@ -193,8 +193,11 @@ const ChatArea = () => {
             </Container>
           </Container>
           {/* Chat Box */}
-           {/* TODO: Scrollable Feed before 10 July 2023 */}
 
+           {/* TODO: Add User to Group */}
+           {/* TODO: Scrollable Feed before 10 July 2023 */}
+           {/* TODO: Solve bug in socket.io */}
+           {/* TODO: Deploy */}
           <Container
             maxWidth="100vw"
             m="0"

@@ -10,7 +10,6 @@ import {
   Button,
   Image,
   HStack,
-  Box
 } from "@chakra-ui/react";
 import { Tag, TagLabel, Avatar } from "@chakra-ui/react";
 
@@ -290,16 +289,9 @@ const CreateGroupPannel = () => {
                     setSearchResults(arr);
                   }}
                 >
-                  <Image
-                    src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-                    height="35px"
-                    style={{
-                      aspectRatio: "1"
-                    }}
-                    borderRadius="100px"
-                    border="1px solid black"
-                    marginRight="10px"
-                  ></Image>
+
+                  <Avatar name={e.name} size="sm" marginRight={"10px"}/>
+
                   <Text fontFamily="Barlow" fontWeight="500" fontSize="20px">
                     {e.name}
                   </Text>
