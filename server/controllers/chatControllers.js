@@ -63,12 +63,12 @@ const fetchChats = async(req, res) => {
                     path: "latestMessage.content,sender",
                     select: "name picture email"
                 })
+
                 for (let i = 0; i < results.length; i++) {
                     if (results[i].chatName == req.user.name) {
                         results[i].chatName = results[i].users[0].name
                     }
                 }
-                // console.log(results)
                 return res.status(200).json({ results: results, msg: "Chats loaded successfully", status: "success" })
             })
     } catch (error) {

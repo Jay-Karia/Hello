@@ -37,9 +37,6 @@ import {
   RiCloseLine,
 } from 'react-icons/ri'
 
-import { Button } from '@chakra-ui/react'
-import { confirmAlert } from 'react-confirm-alert'
-
 import { Avatar } from '@chakra-ui/react'
 
 import { useSelector } from 'react-redux'

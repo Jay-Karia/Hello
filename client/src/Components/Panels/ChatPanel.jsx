@@ -25,6 +25,33 @@ const ChatPannel = () => {
 
   const toast = useToast();
 
+  const getLatestMessages = async () => {
+    for (let i = 0; i < chats.length; i++) {
+      if (chats[i].latestMessage) {
+        await fetch(
+          `http://localhost:8000/api/message/get/${chats[i].latestMessage}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json",
+              Authorization:
+                token
+            }
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            let newArr = latestMessage;
+            let limit = 20;
+            newArr[i] = data.message.content;
+            if (newArr[i].length > limit)
+            newArr[i] = newArr[i].substring(0, limit) + "...";
+            setLatestMessage(newArr);
+          });
+      }
+    }
+  }
+
   const getChats = async () => {
     setLoading(true);
     console.log(token)
@@ -42,33 +69,7 @@ const ChatPannel = () => {
           setChats(data.results);
           localStorage.setItem("chats", JSON.stringify(data.results));
           setLoading(false);
-          // for (let i = 0; i < chats.length; i++) {
-          //   if (chats[i].latestMessage) {
-          //     await fetch(
-          //       `http://localhost:8000/api/message/get/${chats[i].latestMessage}`,
-          //       {
-          //         method: "GET",
-          //         headers: {
-          //           "Content-type": "application/json",
-          //           Authorization:
-          //             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzQzOWIyNGU2MmM2YTVmNDNkNWJlNCIsImlhdCI6MTY4MTc0ODgzNn0.DkTc2yvFb5ArneyMLxJTVVrA1A7NHI9maFp-JVDiRho"
-          //         }
-          //       }
-          //     )
-          //       .then((res) => res.json())
-          //       .then((data) => {
-          //         let newArr = latestMessage;
-          //         let limit = 20;
-          //         newArr[i] = data.message.content;
-          //         if (newArr[i].length > limit)
-          //           newArr[i] = newArr[i].substring(0, limit) + "...";
-          //         setLatestMessage(newArr);
-          //         console.log(newArr);
-          //       });
-          //   } else {
-          //     // newArr[i] = "";
-          //   }
-          // }
+          getLatestMessages()
         });
     } catch (error) {
       toast({
@@ -213,8 +214,7 @@ const ChatPannel = () => {
                           fontSize="15px"
                           fontWeight="300"
                         >
-                        {chats[i].latestMessage}
-                          {/* {latestMessage[i]} */}
+                        {latestMessage[i]}
                         </Text>
                         <Text
                           fontFamily="Inter"
