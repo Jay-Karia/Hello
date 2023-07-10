@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import axios from "axios";
+import axios from 'axios'
 
 import {
   Modal,
@@ -14,12 +14,12 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
-  Text
-} from "@chakra-ui/react";
+  Text,
+} from '@chakra-ui/react'
 
-import { useToast } from "@chakra-ui/react";
+import { useToast } from '@chakra-ui/react'
 
-import { useDisclosure } from "@chakra-ui/hooks";
+import { useDisclosure } from '@chakra-ui/hooks'
 import {
   IconButton,
   Tag,
@@ -27,113 +27,113 @@ import {
   HStack,
   SlideFade,
   Image,
-  Container
-} from "@chakra-ui/react";
+  Container,
+} from '@chakra-ui/react'
 
 import {
   RiMore2Fill,
   RiPencilLine,
   RiUserSearchLine,
-  RiCloseLine
-} from "react-icons/ri";
+  RiCloseLine,
+} from 'react-icons/ri'
+
+import { Button } from '@chakra-ui/react'
+import { confirmAlert } from 'react-confirm-alert'
 
 import { Avatar } from '@chakra-ui/react'
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { chatActions } from "./store";
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { chatActions } from './store'
 
 const ChatModel = (props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const isGroup = props.isGroupChat;
-  const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [chats, setChats] = useState([]);
-  const [selected, setSelected] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const isGroup = props.isGroupChat
+  const [name, setName] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [chats, setChats] = useState([])
+  const [selected, setSelected] = useState([])
 
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([])
 
-  const toast = useToast();
+  const toast = useToast()
 
-  const token = JSON.parse(localStorage.getItem("userInfo")).token
+  const token = JSON.parse(localStorage.getItem('userInfo')).token
 
-  const dispatch = useDispatch();
-  const currentChat = useSelector((state) => state.chat);
+  const dispatch = useDispatch()
+  const currentChat = useSelector((state) => state.chat)
 
   const getChats = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
-      await fetch("http://localhost:8000/api/chat/", {
-        method: "GET",
+      await fetch('http://localhost:8000/api/chat/', {
+        method: 'GET',
         headers: {
-          "Content-type": "application/json",
-          authorization:
-            token
-        }
+          'Content-type': 'application/json',
+          authorization: token,
+        },
       })
         .then((res) => res.json())
         .then(async (data) => {
-          setChats(data.results);
-          localStorage.setItem("chats", JSON.stringify(chats));
-          setLoading(false);
-        });
+          setChats(data.results)
+          localStorage.setItem('chats', JSON.stringify(chats))
+          setLoading(false)
+        })
     } catch (error) {
       toast({
         title: error,
-        status: "error",
+        status: 'error',
         duration: 9000,
-        isClosable: true
-      });
+        isClosable: true,
+      })
     }
-  };
+  }
 
   const accessChat = async (user, chatId) => {
-    setLoading(true);
+    setLoading(true)
     try {
-      let userId = "";
-      if (user.length < 2) userId = user[0]._id;
+      let userId = ''
+      if (user.length < 2) userId = user[0]._id
       // chat user is
-      else userId = user[1]._id;
+      else userId = user[1]._id
 
-      await fetch("http://localhost:8000/api/chat", {
-        method: "POST",
+      await fetch('http://localhost:8000/api/chat', {
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
-          authorization:
-            token
+          'Content-type': 'application/json',
+          authorization: token,
         },
-        body: JSON.stringify({ chatId: chatId, userId: userId })
+        body: JSON.stringify({ chatId: chatId, userId: userId }),
       })
         .then((res) => res.json())
         .then((data) => {
-          localStorage.setItem("selectedChat", JSON.stringify(data));
-          dispatch(chatActions.select(data));
-          setLoading(false);
-        });
+          localStorage.setItem('selectedChat', JSON.stringify(data))
+          dispatch(chatActions.select(data))
+          setLoading(false)
+        })
     } catch (error) {
       toast({
         title: error,
-        status: "error",
+        status: 'error',
         duration: 9000,
-        isClosable: true
-      });
+        isClosable: true,
+      })
     }
-  };
+  }
 
   const renameGroup = async () => {
-    const chatId = props.chat._id;
+    const chatId = props.chat._id
 
-    await fetch("http://localhost:8000/api/chat/group/rename", {
-      method: "POST",
+    await fetch('http://localhost:8000/api/chat/group/rename', {
+      method: 'POST',
       headers: {
-        "Content-type": "application/json",
-        Authorization:
-          token
+        'Content-type': 'application/json',
+        Authorization: token,
       },
       body: JSON.stringify({
         chatId: chatId,
-        chatName: name
-      })
+        chatName: name,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -141,25 +141,24 @@ const ChatModel = (props) => {
           title: data.msg,
           status: data.status,
           duration: 5000,
-          isClosable: true
-        });
-      });
-  };
+          isClosable: true,
+        })
+      })
+  }
 
   const removeUser = async (user) => {
-    const chatId = props.chat._id;
-    const userId = user._id;
-    await fetch("http://localhost:8000/api/chat/group/remove", {
-      method: "POST",
+    const chatId = props.chat._id
+    const userId = user._id
+    await fetch('http://localhost:8000/api/chat/group/remove', {
+      method: 'POST',
       headers: {
-        "Content-type": "application/json",
-        Authorization:
-          token
+        'Content-type': 'application/json',
+        Authorization: token,
       },
       body: JSON.stringify({
         chatId: chatId,
-        user: userId
-      })
+        user: userId,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -167,29 +166,28 @@ const ChatModel = (props) => {
           title: data.msg,
           status: data.status,
           duration: 5000,
-          isClosable: true
-        });
-      });
-  };
+          isClosable: true,
+        })
+      })
+  }
 
   const addUser = async () => {
-    const chatId = props.chat._id;
-    let ids = [];
+    const chatId = props.chat._id
+    let ids = []
     for (let i = 0; i < selected.length; i++) {
-      ids[i] = selected[i]._id;
+      ids[i] = selected[i]._id
     }
 
-    await fetch("http://localhost:8000/api/chat/group/add", {
-      method: "POST",
+    await fetch('http://localhost:8000/api/chat/group/add', {
+      method: 'POST',
       headers: {
-        "Content-type": "application/json",
-        Authorization:
-          token
+        'Content-type': 'application/json',
+        Authorization: token,
       },
       body: JSON.stringify({
         chatId: chatId,
-        users: ids
-      })
+        users: ids,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -197,36 +195,35 @@ const ChatModel = (props) => {
           title: data.msg,
           status: data.status,
           duration: 5000,
-          isClosable: true
-        });
-      });
-  };
+          isClosable: true,
+        })
+      })
+  }
 
   const searchUser = async (search) => {
     // setLoading(true);
     try {
       await fetch(`http://localhost:8000/api/user/?search=${search}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
-          authorization:
-            token
-        }
+          'Content-type': 'application/json',
+          authorization: token,
+        },
       })
         .then((res) => res.json())
         .then((data) => {
-          setSearchResults(data);
+          setSearchResults(data)
           // setLoading(false);
-        });
+        })
     } catch (error) {
       toast({
         title: error,
-        status: "error",
+        status: 'error',
         duration: 9000,
-        isClosable: true
-      });
+        isClosable: true,
+      })
     }
-  };
+  }
 
   return (
     <>
@@ -243,8 +240,8 @@ const ChatModel = (props) => {
       <Modal
         isOpen={isOpen}
         onClose={() => {
-          onClose();
-          accessChat(props.chat.users, props.chat._id);
+          onClose()
+          accessChat(props.chat.users, props.chat._id)
         }}
         isCentered
       >
@@ -274,11 +271,11 @@ const ChatModel = (props) => {
                         <RiCloseLine
                           size={20}
                           onClick={() => {
-                            removeUser(e);
+                            removeUser(e)
                           }}
                         />
                       </Tag>
-                    );
+                    )
                   })}
                 </div>
                 <div class="rename-chat">
@@ -295,7 +292,7 @@ const ChatModel = (props) => {
                       focusBorderColor="grey"
                       backgroundColor="hsl(0, 0%, 95%)"
                       onChange={(e) => {
-                        setName(e.target.value);
+                        setName(e.target.value)
                       }}
                     ></Input>
                     <InputRightAddon
@@ -305,7 +302,7 @@ const ChatModel = (props) => {
                       fontWeight="500"
                       color="white"
                       onClick={() => {
-                        renameGroup();
+                        renameGroup()
                       }}
                     />
                   </InputGroup>
@@ -326,7 +323,7 @@ const ChatModel = (props) => {
                       focusBorderColor="grey"
                       backgroundColor="hsl(0, 0%, 95%)"
                       onChange={(e) => {
-                        searchUser(e.target.value);
+                        searchUser(e.target.value)
                       }}
                     ></Input>
                     <InputRightAddon
@@ -336,7 +333,7 @@ const ChatModel = (props) => {
                       fontWeight="500"
                       color="white"
                       onClick={() => {
-                        addUser();
+                        addUser()
                       }}
                     />
                   </InputGroup>
@@ -365,18 +362,18 @@ const ChatModel = (props) => {
                               size={20}
                               onClick={() => {
                                 // setIsOpen(true);
-                                let newArr = [...selected];
-                                let index = newArr.indexOf(e);
-                                newArr.splice(index, 1);
-                                setSelected(newArr);
-                                let arr = [...searchResults];
-                                arr.push(e);
-                                setSearchResults(arr);
+                                let newArr = [...selected]
+                                let index = newArr.indexOf(e)
+                                newArr.splice(index, 1)
+                                setSelected(newArr)
+                                let arr = [...searchResults]
+                                arr.push(e)
+                                setSearchResults(arr)
                               }}
                             />
                           </Tag>
                         </SlideFade>
-                      );
+                      )
                     })}
                   </HStack>
                 </div>
@@ -393,20 +390,20 @@ const ChatModel = (props) => {
                         flexDirection="row"
                         cursor="pointer"
                         _hover={{
-                          backgroundColor: "hsl(250, 50%, 85%)"
+                          backgroundColor: 'hsl(250, 50%, 85%)',
                         }}
                         onClick={() => {
-                          let newArr = [...selected];
+                          let newArr = [...selected]
                           // setIsOpen(true);
-                          newArr.push(e);
-                          setSelected(newArr);
-                          let index = searchResults.indexOf(e);
-                          let arr = [...searchResults];
-                          arr.splice(index, 1);
-                          setSearchResults(arr);
+                          newArr.push(e)
+                          setSelected(newArr)
+                          let index = searchResults.indexOf(e)
+                          let arr = [...searchResults]
+                          arr.splice(index, 1)
+                          setSearchResults(arr)
                         }}
                       >
-                        <Avatar name={e.name} size="sm" marginRight={"10px"}/>
+                        <Avatar name={e.name} size="sm" marginRight={'10px'} />
                         <Text
                           fontFamily="Barlow"
                           fontWeight="500"
@@ -415,14 +412,14 @@ const ChatModel = (props) => {
                           {e.name}
                         </Text>
                       </Container>
-                    );
+                    )
                   })}
                 </div>
               </>
             ) : (
               <>
                 <div class="avatar">
-                  <Avatar name={props.chat.users[1].name} size="xl"/>
+                  <Avatar name={props.chat.users[1].name} size="xl" />
                 </div>
 
                 <div class="email">
@@ -444,7 +441,7 @@ const ChatModel = (props) => {
         </ModalContent>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ChatModel;
+export default ChatModel
