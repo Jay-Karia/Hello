@@ -80,9 +80,6 @@ const ChatPannel = () => {
     }
   };
   const dispatch = useDispatch();
-  const [fetchLoading, setFetchLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const currentChat = useSelector((state) => state.chat);
 
   const accessChat = async (user, chatId) => {
     setLoading(true);

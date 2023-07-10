@@ -299,20 +299,6 @@ const CreateGroupPannel = () => {
               );
             })}
           </VStack>
-          <FormControl id="profile" isRequired="false" marginTop="20px">
-            <FormLabel fontFamily="Barlow" fontWeight="500">
-              Group Profile
-            </FormLabel>
-            <Input
-              type="file"
-              p={1.5}
-              accept="image/*"
-              onChange={(e) => {
-                setProfile(postDetails(e.target.files[0]));
-              }}
-              style={{ border: "none" }}
-            />
-          </FormControl>
         </Container>
         {/* Button Container */}
         <Container

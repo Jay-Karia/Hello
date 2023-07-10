@@ -117,6 +117,7 @@ const ChatArea = () => {
 
   useEffect(() => {
     try {
+      if (currentChat.length != 0)
       getAllMessages();
       selectedChatCompare = currentChat.payload.chat
     } catch {}
