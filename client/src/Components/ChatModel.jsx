@@ -248,7 +248,7 @@ const ChatModel = (props) => {
           <ModalBody>
             {isGroup ? (
               <>
-                <div class="users">
+                <div class="users" style={{ display:"flex", flexWrap:"wrap"}}>
                   {props.users.map((e, i) => {
                     return (
                       <Tag
