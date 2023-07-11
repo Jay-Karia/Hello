@@ -23,8 +23,6 @@ const Navbar = () => {
   const [name, setName] = useState('')
   const navigate = useNavigate()
 
-  const userInfo = JSON.parse(localStorage.getItem('userInfo')).user
-
   const [showProfile, setShowProfile] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -109,9 +107,9 @@ const Navbar = () => {
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody align="center">
-                  <Avatar name={userInfo.name} size="xl" style={{marginBottom:"20px"}}/>
+                  <Avatar name={JSON.parse(localStorage.getItem('userInfo')).user.name} size="xl" style={{marginBottom:"20px"}}/>
                   <Text fontFamily="Inter" fontWeight="300" fontSize="20px">
-                    {userInfo.email}
+                    {JSON.parse(localStorage.getItem('userInfo')).user.email}
                   </Text>
                 </ModalBody>
 

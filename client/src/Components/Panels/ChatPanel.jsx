@@ -180,15 +180,6 @@ const ChatPannel = () => {
                     }}
                     // borderRadius="15px"
                   >
-                    {/* <Image
-                      src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-                      style={{
-                        aspectRatio: "1",
-                        width: "50px",
-                        // border: "2px solid black",
-                        borderRadius: "100px"
-                      }}
-                    /> */}
                     <Avatar name={chats[i].chatName} />
                     <Container
                       style={{

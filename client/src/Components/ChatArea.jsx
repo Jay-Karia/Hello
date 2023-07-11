@@ -82,13 +82,6 @@ const ChatArea = () => {
           localStorage.setItem("messages", messages);
           // alert(JSON.stringify(messages));
         });
-
-      // toast({
-      //   title: "Message sent",
-      //   status: "success",
-      //   isClosable: true,
-      //   duration: "5000"
-      // });
       setMessage("");
       getAllMessages();
     }
@@ -137,10 +130,10 @@ const ChatArea = () => {
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
-      if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.message.chat._id) {
         // Give notification
       } else {
-        setMessage([...messages, newMessageReceived])
+        if (currentChat.length != 0)
         getAllMessages()
       }
     })
@@ -195,10 +188,8 @@ const ChatArea = () => {
           </Container>
           {/* Chat Box */}
 
-           {/* TODO: Add User to Group */}
-           {/* TODO: Scrollable Feed before 10 July 2023 */}
-           {/* TODO: Solve bug in socket.io */}
-           {/* TODO: Deploy */}
+          {/* TODO: Solve bug in socket.io */}
+          {/* TODO: Deploy */}
           <Container
             maxWidth="100vw"
             m="0"
