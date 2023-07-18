@@ -29,7 +29,7 @@ const ChatPannel = () => {
     for (let i = 0; i < chats.length; i++) {
       if (chats[i].latestMessage) {
         await fetch(
-          `http://localhost:8000/api/message/get/${chats[i].latestMessage}`,
+          `https://hello-chat-app-kappa.vercel.app/api/message/get/${chats[i].latestMessage}`,
           {
             method: "GET",
             headers: {
@@ -56,7 +56,7 @@ const ChatPannel = () => {
     setLoading(true);
     console.log(token)
     try {
-      await fetch("http://localhost:8000/api/chat/", {
+      await fetch("https://hello-chat-app-kappa.vercel.app/api/chat/", {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -91,7 +91,7 @@ const ChatPannel = () => {
       else userId = user[1]._id;
       // const userId = JSON.parse(localStorage.getItem("userInfo")).user._id; // logged in user id
 
-      await fetch("http://localhost:8000/api/chat", {
+      await fetch("https://hello-chat-app-kappa.vercel.app/api/chat", {
         method: "POST",
         headers: {
           "Content-type": "application/json",

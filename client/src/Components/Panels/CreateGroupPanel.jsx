@@ -78,7 +78,7 @@ const CreateGroupPannel = () => {
       ids[i] = users[i]._id;
     }
     try {
-      await fetch("http://localhost:8000/api/chat/group", {
+      await fetch("https://hello-chat-app-kappa.vercel.app/api/chat/group", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -107,7 +107,7 @@ const CreateGroupPannel = () => {
   const searchUser = async (search) => {
     // setLoading(true);
     try {
-      await fetch(`http://localhost:8000/api/user/?search=${search}`, {
+      await fetch(`https://hello-chat-app-kappa.vercel.app/api/user/?search=${search}`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
