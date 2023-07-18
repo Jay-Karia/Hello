@@ -97,7 +97,7 @@ const SignUp = () => {
         } else {
             try {
                 await axios
-                    .post("http://localhost:8000/api/user/register", {
+                    .post("https://hello-chat-app-kappa.vercel.app/api/user/register", {
                         header: {
                             "Content-type": "application/json",
                         },
