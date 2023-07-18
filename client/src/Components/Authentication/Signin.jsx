@@ -58,7 +58,7 @@ const SignIn = () => {
         } else {
             try {
                 await axios
-                    .post("/api/user/login", {
+                    .post("https://hello-chat-app-kappa.vercel.app/api/user/login", {
                         header: {
                             "Content-type": "application/json",
                         },
