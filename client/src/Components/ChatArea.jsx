@@ -27,7 +27,7 @@ import { useDispatch } from "react-redux";
 import no_conversation from "./assets/no conversation.jpg";
 
 import io from "socket.io-client"
-const ENDPOINT = "https://hello-chat-app-kappa.vercel.app/"
+const ENDPOINT = "https://hello-chat-app-kappa.vercel.app//"
 var socket, selectedChatCompare;
 
 const ChatArea = () => {
