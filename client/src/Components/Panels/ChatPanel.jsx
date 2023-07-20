@@ -156,7 +156,6 @@ const ChatPannel = () => {
           </Text>
         </Container>
 
-        <ScrollableFeed>
           <Container marginTop="50px" height="auto" d="flex" p="0">
             {/* Chat Container */}
             {chats.length > 0 ? (
@@ -240,7 +239,7 @@ const ChatPannel = () => {
             )}
             {/* end */}
           </Container>
-          <Container marginTop="20px" align="center">
+          <Container marginTop="0" align="center">
             {loading ? (
               <Spinner
                 thickness="4px"
@@ -278,7 +277,6 @@ const ChatPannel = () => {
               <RiRefreshLine size={20} />
             </Button>
           </Container>
-        </ScrollableFeed>
       </Container>
     </>
   );

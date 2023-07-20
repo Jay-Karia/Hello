@@ -8,6 +8,7 @@
 .App {
     font-family: sans-serif;
     text-align: center;
+    overflow-y: hidden;
 }
 
 * {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import ScrollableFeed from 'react-scrollable-feed'
 import { Container, Text, Avatar, Tooltip } from '@chakra-ui/react'
@@ -21,9 +21,26 @@ const ScrollableChat = ({ messages, user }) => {
     )
   }
 
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    // Add event listener to handle window resize
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <ScrollableFeed>
+      {/* <ScrollableFeed> */}
+      <div style={{ height: windowHeight*80.5/100, overflowY: 'hidden'}}>
         {messages &&
           messages.map((e, i) => {
             return e ? (
@@ -135,7 +152,8 @@ const ScrollableChat = ({ messages, user }) => {
               ''
             )
           })}
-      </ScrollableFeed>
+      {/* </ScrollableFeed> */}
+      </div>
     </>
   )
 }
