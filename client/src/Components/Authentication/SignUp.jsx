@@ -27,7 +27,7 @@ const SignUp = () => {
     const [loading, setLoading] = useState(false);
     const toast = useToast();
 
-    const validateEmail = () => {
+    const validateEmail = (email) => {
         const re =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         const validate = re.test(email.toLowerCase());
@@ -41,7 +41,7 @@ const SignUp = () => {
     };
 
     const validateCPass = (e) => {
-        if (e.target.value !== password) {
+        if (e !== password) {
             setCPassValidate(false);
         } else {
             setCPassValidate(true);
@@ -174,7 +174,7 @@ const SignUp = () => {
                     <Input
                         onChange={(e) => {
                             setEmail(e.target.value);
-                            validateEmail();
+                            validateEmail(e.target.value);
                         }}
                         focusBorderColor="hsl(0, 0%, 80%)"
                         size="lg"
@@ -251,7 +251,7 @@ const SignUp = () => {
                         <Input
                             onChange={(e) => {
                                 setConfirmPassword(e.target.value);
-                                validateCPass(e);
+                                validateCPass(e.target.value);
                             }}
                             type={show ? "text" : "password"}
                             focusBorderColor="hsl(0, 0%, 80%)"
