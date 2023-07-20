@@ -127,7 +127,7 @@ const SearchPannel = () => {
         </Container>
         <InputGroup marginTop="20px" width="90%">
           <Input
-            type="tel"
+            type="text"
             placeholder="Search User"
             fontFamily="Inter"
             fontWeight="300"

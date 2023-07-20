@@ -18,7 +18,7 @@ const SignIn = () => {
     const [emailValidate, setEmailValidate] = useState(false);
     const toast = useToast();
 
-    const validateEmail = () => {
+    const validateEmail = (email) => {
         const re =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         const validate = re.test(email.toLowerCase());
@@ -36,9 +36,7 @@ const SignIn = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setLoading(true);
-        // if (!name && !emailValidate && !passwordValidate && !cPassValidate) {}
-        // console.log(emailValidate, passwordValidate, cPassValidate);
+
         if (!email || !password) {
             toast({
                 title: "Please fill out the details",
@@ -110,7 +108,7 @@ const SignIn = () => {
                     <Input
                         onChange={(e) => {
                             setEmail(e.target.value);
-                            validateEmail();
+                            validateEmail(e.target.value)
                         }}
                         focusBorderColor="hsl(0, 0%, 80%)"
                         size="lg"
@@ -184,7 +182,8 @@ const SignIn = () => {
 
                 <Button
                     colorScheme="facebook"
-                    onClick={handleSubmit}
+                    // onClick={handleSubmit}
+                    onClick={(e)=> {handleSubmit(e)}}
                     style={{
                         marginTop: "30px",
                         borderRadius: "100px",
