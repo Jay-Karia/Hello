@@ -23,6 +23,8 @@ const ChatPannel = () => {
 
   const token = JSON.parse(localStorage.getItem("userInfo")).token
 
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
   const toast = useToast();
 
   const getLatestMessages = async () => {
@@ -130,6 +132,20 @@ const ChatPannel = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    // Add event listener to handle window resize
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Container
@@ -158,6 +174,7 @@ const ChatPannel = () => {
 
           <Container marginTop="50px" height="auto" d="flex" p="0">
             {/* Chat Container */}
+            <div style={{ height: windowHeight*72/100, overflowY: 'auto'}}>
             {chats.length > 0 ? (
               chats.map((e, i) => {
                 return (
@@ -237,6 +254,7 @@ const ChatPannel = () => {
                 </Text>
               </Container>
             )}
+            </div>
             {/* end */}
           </Container>
           <Container marginTop="0" align="center">
