@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 
 // register
 const register = async(req, res) => {
-    const user = req.body.body
+    const user = JSON.parse(req.body.body)
     user.password = await bcrypt.hash(user.password, 10)
     user.name = user.name.toLowerCase()
     user.email = user.email.toLowerCase()
@@ -20,7 +20,7 @@ const register = async(req, res) => {
 
     try {
         newUser = new User(user)
-        token = generateToken(newUser.id)
+        token = "Bearer " + generateToken(newUser.id)
         newUser.save()
     } catch (err) {
         return res.status(500).json({ msg: 'Sorry! Some internal server error', error: err, status: 'error' })
@@ -30,7 +30,7 @@ const register = async(req, res) => {
 
 // login
 const login = async(req, res) => {
-    const user = (req.body.body)
+    const user = JSON.parse(req.body.body)
     const newUser = await User.findOne({ email: user.email })
     try {
         const existingUser = await User.findOne({ email: user.email })
@@ -71,5 +71,4 @@ const searchUser = async(req, res) => {
     return res.send(users)
 }
 
-module.exports = { register, login, searchUser }
 module.exports = { register, login, searchUser }
