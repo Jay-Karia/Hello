@@ -36,41 +36,6 @@ const CreateGroupPannel = () => {
 
   const token = JSON.parse(localStorage.getItem("userInfo")).token
 
-  const postDetails = (picture) => {
-    setLoading(true);
-    if (picture === undefined) {
-      toast({
-        title: "Please select image",
-        status: "warning",
-        duration: "4000",
-        isClosable: true,
-        position: "bottom"
-      });
-      return;
-    }
-
-    if (picture.type === "image/jpg" || picture.type === "image/png") {
-      const data = new FormData();
-      data.append("file", picture);
-      data.append("upload_preset", "hello-chat-app");
-      data.append("cloud_name", "dkzytvwtx");
-      // console.log(data);
-      //   axios
-      //     .post("https://api.cloudinary.com/v1_1/dkzytvwtx", {
-      //       body: data
-      //     })
-      //     .then((res) => res.json())
-      //     .then((data) => {
-      //       setProfile(data);
-      //       console.log(picture);
-      //       setLoading(false);
-      //     })
-      //     .catch((err) => {
-      //       console.error(err);
-      //     });
-      alert(data);
-    }
-  };
 
   const createGroupChat = async (groupName, users) => {
     let ids = [];
@@ -78,7 +43,7 @@ const CreateGroupPannel = () => {
       ids[i] = users[i]._id;
     }
     try {
-      await fetch("https://hello-chat-app-kappa.vercel.app/api/chat/group", {
+      await fetch("http://localhost:8000/api/chat/group", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -107,7 +72,7 @@ const CreateGroupPannel = () => {
   const searchUser = async (search) => {
     // setLoading(true);
     try {
-      await fetch(`https://hello-chat-app-kappa.vercel.app/api/user/?search=${search}`, {
+      await fetch(`http://localhost:8000/api/user/?search=${search}`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
