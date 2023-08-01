@@ -39,11 +39,11 @@ const SearchPannel = () => {
     setLoading(true);
     if (search.length !== 0) {
       try {
-        await fetch(`https://hello-chat-app-kappa.vercel.app/api/user/?search=${search}`, {
+        await fetch(`http://localhost:8000/api/user/?search=${search}`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",
-            authorization:
+            Authorization:
               token
           }
         })
@@ -70,7 +70,7 @@ const SearchPannel = () => {
       const user_id = user._id; // new user id
 
       // alert(user._id);
-      await fetch("https://hello-chat-app-kappa.vercel.app/api/chat", {
+      await fetch("http://localhost:8000/api/chat", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
