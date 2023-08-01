@@ -27,7 +27,7 @@ import { useDispatch } from 'react-redux'
 import no_conversation from './assets/no conversation.jpg'
 
 import io from 'socket.io-client'
-const ENDPOINT = 'https://hello-chat-app-kappa.vercel.app/'
+const ENDPOINT = 'http://localhost:8000'
 var socket, selectedChatCompare
 
 const ChatArea = () => {
@@ -41,7 +41,7 @@ const ChatArea = () => {
   const [fetchLoading, setFetchLoading] = useState(false)
   const [messages, setMessages] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const token = JSON.parse(localStorage.getItem('userInfo')).token
+  const token =  JSON.parse(localStorage.getItem('userInfo')).token
 
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('userInfo')))
 
@@ -60,7 +60,7 @@ const ChatArea = () => {
         duration: '5000',
       })
     } else {
-      await fetch('https://hello-chat-app-kappa.vercel.app/api/message', {
+      await fetch('http://localhost:8000/api/message', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -89,7 +89,7 @@ const ChatArea = () => {
   const getAllMessages = async () => {
     setFetchLoading(true)
     await fetch(
-      `https://hello-chat-app-kappa.vercel.app/api/message/${currentChat.payload.chat._id}`,
+      `http://localhost:8000/api/message/${currentChat.payload.chat._id}`,
       {
         headers: {
           'Content-type': 'application/json',
