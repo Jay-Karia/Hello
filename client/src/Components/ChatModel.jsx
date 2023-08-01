@@ -52,7 +52,7 @@ const ChatModel = (props) => {
 
   const toast = useToast()
 
-  const token = JSON.parse(localStorage.getItem('userInfo')).token
+  const token =  JSON.parse(localStorage.getItem('userInfo')).token
 
   const dispatch = useDispatch()
   const currentChat = useSelector((state) => state.chat)
@@ -60,7 +60,7 @@ const ChatModel = (props) => {
   const getChats = async () => {
     setLoading(true)
     try {
-      await fetch('https://hello-chat-app-kappa.vercel.app/api/chat/', {
+      await fetch('http://localhost:8000/api/chat/', {
         method: 'GET',
         headers: {
           'Content-type': 'application/json',
@@ -91,7 +91,7 @@ const ChatModel = (props) => {
       // chat user is
       else userId = user[1]._id
 
-      await fetch('https://hello-chat-app-kappa.vercel.app/api/chat', {
+      await fetch('http://localhost:8000/api/chat', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -118,7 +118,7 @@ const ChatModel = (props) => {
   const renameGroup = async () => {
     const chatId = props.chat._id
 
-    await fetch('https://hello-chat-app-kappa.vercel.app/api/chat/group/rename', {
+    await fetch('http://localhost:8000/api/chat/group/rename', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -143,7 +143,7 @@ const ChatModel = (props) => {
   const removeUser = async (user) => {
     const chatId = props.chat._id
     const userId = user._id
-    await fetch('https://hello-chat-app-kappa.vercel.app/api/chat/group/remove', {
+    await fetch('http://localhost:8000/api/chat/group/remove', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -172,7 +172,7 @@ const ChatModel = (props) => {
       ids[i] = selected[i]._id
     }
 
-    await fetch('https://hello-chat-app-kappa.vercel.app/api/chat/group/add', {
+    await fetch('http://localhost:8000/api/chat/group/add', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -197,7 +197,7 @@ const ChatModel = (props) => {
   const searchUser = async (search) => {
     // setLoading(true);
     try {
-      await fetch(`https://hello-chat-app-kappa.vercel.app/api/user/?search=${search}`, {
+      await fetch(`http://localhost:8000/api/user/?search=${search}`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
