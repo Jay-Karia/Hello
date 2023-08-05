@@ -24,4 +24,4 @@ add this:<br>
 ## Frontend 👁
 go to the directory: ```cd client``` <br>
 install dependencies: ```npm install``` <br>
-run: ```npm run dev```
+run: ```npm run start```
